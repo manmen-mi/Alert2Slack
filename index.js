@@ -8,9 +8,10 @@ const alert = async () => {
     const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
+        "fallback": "[Error] " + github.context.workflow + " in " + title,
         "color": "#ff0000",
         "pretext": "Failed " + github.context.workflow,
-        "title":"Actions report " + title,
+        "title":"Detail...",
         "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
         "fields": [
           {
@@ -21,16 +22,6 @@ const alert = async () => {
           {
             "title": "Event",
             "value": github.context.eventName,
-            "short": true
-          },
-          {
-            "title": "Actor",
-            "value": github.context.actor,
-            "short": true
-          },
-          {
-            "title": "Action",
-            "value": github.context.action,
             "short": true
           }
         ]
