@@ -4,8 +4,10 @@ const axios = require('axios').default
 
 const alert = async () => {
   try {
-    const err = core.getInput('is-err')
+    const err = core.getInput('is-err') === true
     const url = core.getInput('webhook')
+    core.debug(`is-err:${err}, url:${url}`)
+
     const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
