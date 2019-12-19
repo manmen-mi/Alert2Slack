@@ -9,9 +9,9 @@ const alert = async () => {
     const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
-        "fallback": err ? "[Error] " : "[Success] " + github.context.workflow + " in " + title,
+        "fallback": (err ? "[Error] " : "[Success] ") + github.context.workflow + " in " + title,
         "color": err ? "#ff0000" : "#00ff00",
-        "pretext": err ? "Failed " : "Succeed " + github.context.workflow,
+        "pretext": (err ? "Failed " : "Succeed ") + github.context.workflow,
         "title":"Detail...",
         "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
         "fields": [

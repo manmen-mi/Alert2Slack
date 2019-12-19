@@ -7,6 +7,9 @@ inputs:
   webhook:  # id of input
     description: 'webhook url for slack'
     required: true
+  is-err:
+    description: 'true when error'
+    default: false
 runs:
   using: 'node12'
   main: 'index.js'
