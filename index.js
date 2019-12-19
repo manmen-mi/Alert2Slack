@@ -4,13 +4,14 @@ const axios = require('axios').default
 
 const alert = async () => {
   try {
+    const err = core.getInput('is-err')
     const url = core.getInput('webhook')
     const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
-        "fallback": "[Error] " + github.context.workflow + " in " + title,
-        "color": "#ff0000",
-        "pretext": "Failed " + github.context.workflow,
+        "fallback": err ? "[Error] " : "[Success] " + github.context.workflow + " in " + title,
+        "color": err ? "#ff0000" : "#00ff00",
+        "pretext": err ? "Failed " : "Succeed " + github.context.workflow,
         "title":"Detail...",
         "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
         "fields": [
