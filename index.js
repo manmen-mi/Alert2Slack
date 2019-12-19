@@ -1,11 +1,11 @@
-import core from '@actions/core'
-import github from '@actions/github'
-import axios from 'axios'
+const core = require('@actions/core');
+const github = require('@actions/github');
+const axios = require('axios').default;
 
-export default async () => {
+module.exports = async () => {
   try {
-    const url = core.getInput('webhook')
-    const title_link = core.getInput('title-link')
+    const url = core.getInput('webhook');
+    const title_link = core.getInput('title-link');
     await axios.post(url, {
       "attachments": [{
         "color": "#ff0000",
@@ -25,9 +25,9 @@ export default async () => {
           }
         ]
       }]
-    }, {'Content-type':'application/json'})
-    console.log('message posted')
+    }, {'Content-type':'application/json'});
+    console.log('message posted');
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error.message);
   }
 }
