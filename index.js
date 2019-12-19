@@ -9,8 +9,8 @@ const alert = async () => {
     await axios.post(url, {
       "attachments": [{
         "color": "#ff0000",
-        "pretext": "Error while Github actions",
-        "title":"Error in " + title,
+        "pretext": "Failed " + github.context.workflow,
+        "title":"Actions report " + title,
         "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
         "fields": [
           {
@@ -19,8 +19,18 @@ const alert = async () => {
             "short": true
           },
           {
-            "title": "Type",
-            "value": "Error"+github.context.workflow,
+            "title": "Event",
+            "value": github.context.eventName,
+            "short": true
+          },
+          {
+            "title": "Actor",
+            "value": github.context.actor,
+            "short": true
+          },
+          {
+            "title": "Action",
+            "value": github.context.action,
             "short": true
           }
         ]
