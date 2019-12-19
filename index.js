@@ -5,13 +5,13 @@ const axios = require('axios').default
 const alert = async () => {
   try {
     const url = core.getInput('webhook')
-    const title_link = core.getInput('title-link')
+    const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
         "color": "#ff0000",
-        "pretext": "Error in Github actions",
-        "title":"Jump to repository",
-        "title_link": title_link,
+        "pretext": "Error while Github actions",
+        "title":"Error in " + title,
+        "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
         "fields": [
           {
             "title": "Repository",
@@ -20,7 +20,7 @@ const alert = async () => {
           },
           {
             "title": "Type",
-            "value": "Error",
+            "value": "Error"+github.context.workflow,
             "short": true
           }
         ]

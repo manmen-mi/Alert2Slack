@@ -7,9 +7,6 @@ inputs:
   webhook:  # id of input
     description: 'webhook url for slack'
     required: true
-  title-link:
-    description: 'title link'
-    default: 'http://github.com'
 runs:
   using: 'node12'
   main: 'index.js'
