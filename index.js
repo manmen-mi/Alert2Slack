@@ -1,15 +1,31 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const axios = require('axios').default;
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  const url = core.getInput('webhook');
+  const title_link = core.getInput('title-link');
+  await axios.post(url, {
+    "attachments": [{
+      "color": "#ff0000",
+      "pretext": "Error in Github actions",
+      "title":"Jump to repository",
+      "title_link": title_link,
+      "fields": [
+        {
+          "title": "Repository",
+          "value": github.context.repo,
+          "short": true
+        },
+        {
+          "title": "Type",
+          "value": "Error",
+          "short": true
+        }
+      ]
+    }]
+  }, {'Content-type':'application/json'});
+  console.log('message posted');
 } catch (error) {
   core.setFailed(error.message);
 }
