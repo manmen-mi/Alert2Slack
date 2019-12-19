@@ -15,7 +15,7 @@ const alert = async () => {
         "fields": [
           {
             "title": "Repository",
-            "value": github.context.repo,
+            "value": github.context.repo.repo,
             "short": true
           },
           {
