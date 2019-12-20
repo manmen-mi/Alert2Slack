@@ -11,21 +11,35 @@ const alert = async () => {
     const title = [github.context.repo.owner, github.context.repo.repo].join("/")
     await axios.post(url, {
       "attachments": [{
-        "fallback": (err ? "[Error] " : "[Success] ") + github.context.workflow + " in " + title,
-        "color": err ? "#ff0000" : "#2eb886",
-        "pretext": (err ? "Failed " : "Succeed ") + github.context.workflow,
-        "title":"Detail...",
-        "title_link": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks",
-        "fields": [
+        "color": err ? "danger" : "good",
+        "blocks": [
           {
-            "title": "Repository",
-            "value": github.context.repo.repo,
-            "short": true
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": (err ? "Failed " : "Succeed ") + github.context.workflow
+            },
+            "accessory": {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Detail"
+              },
+              "url": "https://github.com/" + title + "/commit/" + github.context.sha + "/checks"
+            }
           },
           {
-            "title": "Event",
-            "value": github.context.eventName,
-            "short": true
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": "*Repository:*\n" + github.context.repo.repo
+              },
+              {
+                "type": "mrkdwn",
+                "text": "*Event:*\n" + github.context.eventName
+              }
+            ]
           }
         ]
       }]
